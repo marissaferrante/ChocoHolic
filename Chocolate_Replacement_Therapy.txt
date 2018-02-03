@@ -1,0 +1,166 @@
+import java.util.Scanner;
+import java.util.Random;
+
+public class ChocoHolic
+{
+    static Scanner input; 
+    public static void main(String[] args)
+    {
+        input = new Scanner(System.in);
+        String newUserString = getString();
+        input.close();
+        String quote = selectQuote();
+        String result = maskString(newUserString, quote);
+        
+        // print new phrase with replacement      
+        System.out.print("\n" + result);
+    }
+
+    // request phrase from user
+    public static String getString()
+    {
+        String prompt, strUserResponse;
+        int MIN_NUM_CHARACTERS = 2;
+        
+        do
+        {
+            prompt = "Please enter a noun or phrase (must include at least " 
+                    + MIN_NUM_CHARACTERS + " characters): \n\n";
+            System.out.print(prompt);
+            strUserResponse = input.nextLine(); 
+            
+        } while (strUserResponse.length() < MIN_NUM_CHARACTERS);
+        
+        return strUserResponse.toLowerCase();      
+    }
+    
+    // selects random quote
+    public static String selectQuote()
+    {
+        String[] myList = {"A little chocolate a day keeps the doctor at bay. -"
+                + " Marcia Carrington",
+            "All you need is love. But a little chocolate now and then doesn't "
+            + "hurt. - "
+            + "\n Charles M. Schulz",
+            "Anything is good if it's made of chocolate. - Jo Brand",
+            "Caramels are only a fad. Chocolate is a permanent thing. - Milton "
+            + "Snavely "
+            + "\nHershey",
+            "Chemically speaking, chocolate really is the world's perfect food."
+            + "- Michael "
+            + "\nLevine",
+            "Chocolate is a perfect food, as wholesome as it is delicious, a "
+            + "beneficent "
+            + "\nrestorer of exhausted power. It is the best friend of those "
+            + "engaged in "
+            + "\nliterary pursuits. - Justus Liebig",
+            "Chocolate is medicinal. I just did another study that confirms it."
+            + " - Michelle "
+            + "\nM. Pillow",
+            "Chocolate is the only aromatherapy I need. - Jasmine Heiler",
+            "Chocolate remedies adversity. - Jareb Teague",
+            "Chocolate says 'I'm sorry' so much better than words. - Rachel "
+            + "Vincent",
+            "Chocolate: The poor mans' champagne. - Daniel Worona",
+            "Coffee and chocolate, the inventor of mocha should be sainted. - "
+            + "Cherise "
+            + "\nSinclair",
+            "I never met a chocolate I didn't like. - Deanna Troi",
+            "If I die eating chocolate, I'll die happy. - Cailey Sims",
+            "If there's no chocolate in Heaven, I'm not going. - Jane Seabrook",
+            "Look, there's no metaphysics on earth like chocolates. - Fernando "
+            + "Pessoa",
+            "My therapist told me the way to achieve true inner peace is to "
+            + "finish what I "
+            + "\nstart. So far today, I have finished 2 bags of M&M's and a "
+            + "chocolate cake."
+            + "\n I feel better already. - Dave Barry",
+            "Nine out of ten people like chocolate. The tenth person always "
+            + "lies. - John Q."
+            + "\n Tullius",
+            "Other things are just food. But chocolate's chocolate. - Patrick "
+            + "Skene Catling",
+            "Remember the days when you let your child have some chocolate if "
+            + "he finished "
+            + "\nhis cereal? Now, chocolate is one of the cereals. - Robert "
+            + "Orben",
+            "Strength is the capacity to break a Hershey bar into four pieces "
+            + "with your bare"
+            + "\nhands, and then eat just one of the pieces. - Judith Viorst",
+            "The greatest tragedies were written by the Greeks and Shakespeare."
+            + " Neither knew"
+            + "\n chocolate. - Sandra Boynton",
+            "The superiority of chocolate, both for health and nourishment, "
+            + "will soon give "
+            + "\nit the same preference over tea and coffee in America which "
+            + "it has in Spain."
+            + "\n - Thomas Jefferson",
+            "There is nothing better than a friend, unless it is a friend with"
+            + " chocolate. - "
+            + "\nLinda Grayson",
+            "What use are cartridges in battle? I always carry chocolate "
+            + "instead. - George "
+            + "\nBernard Shaw",
+            "What you see before you, my friend, is the result of a lifetime of"
+            + " chocolate. -"
+            + "\n Katharine Hepburn",
+            "When we don't have the words chocolate can speak volumes. - Joan "
+            + "Bauer",
+            "Who cares about falling in love. I'd rather fall in chocolate. - "
+            + "Tori Mason",
+            "Your hand and your mouth agreed many years ago that, as far as "
+            + "chocolate is "
+            + "\nconcerned, there is no need to involve your brain. - Dave "
+            + "Barry",
+            "A little chocolate a day keeps the doctor at bay. - Marcia "
+            + "Carrington"};
+        Random rand = new Random(); 
+        int value = rand.nextInt(30);
+        return myList[value];
+    }
+    
+    // replace phrase in the quote
+    public static String maskString (String newUserString, String quote)
+    {
+        String newReplaceString = ""; 
+        String REPLACED_STRING1 = "Chocolate";
+        String REPLACED_STRING2 = "chocolate";
+        String [] words = quote.split("\\s+");
+        int wordNum; 
+        
+        for (wordNum = 0; wordNum < words.length; wordNum++)
+        {
+            
+            if(words[wordNum].startsWith(REPLACED_STRING1))
+                newReplaceString += words[wordNum].replaceAll(REPLACED_STRING1,
+                        (newUserString.substring(0,1).toUpperCase()) + 
+                        newUserString.substring(1).toLowerCase()) + ' ';
+            else if(words[wordNum].startsWith(REPLACED_STRING2))
+                newReplaceString += words[wordNum].replaceAll(REPLACED_STRING2,
+                        newUserString) + ' ';
+            else
+            {
+                newReplaceString += words[wordNum] + ' ';
+            }
+        }
+        
+        return newReplaceString;
+    }
+
+}
+
+/*------------------------Sample Run 1------------------------------------------
+Please enter a noun or phrase (must include at least 2 characters): 
+
+Moldy Pickles
+
+If I die eating moldy pickles, I'll die happy. - Cailey Sims
+ -----------------------------------------------------------------------------*/
+
+/*------------------------Sample Run 2------------------------------------------
+Please enter a noun or phrase (must include at least 2 characters): 
+
+Moldy Pickles
+
+If there's no moldy pickles in Heaven, I'm not going. - Jane Seabrook 
+ -----------------------------------------------------------------------------*/
